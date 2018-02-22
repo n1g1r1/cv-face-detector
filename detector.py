@@ -1,38 +1,70 @@
-# Detector file
+#######################################################
+# Face detection script
+# @author: Christian Reichel
+# Based on: OpenCV tutorial for face detection
+# Version: 0.1
+# -----------------------------------------------------
+# This script detects well aligned faces and eyes with 
+# haar cascades and draws boundary boxes.
+# 
+# Knowm challenges:
+# [ ] Detect tilted faces.
+# [ ] Detect eyes with glasses on.
+# [ ] Cut out eyes and show as separate windows.
+#######################################################
 
-import cv2 as cv
+# IMPORTS
 import numpy as np
+import cv2 as cv
 
-# Get camera image
-cameraCapture = cv.VideoCapture(0)
+# Pretrained haar cascade classifiers.
+face_cascade = cv.CascadeClassifier('data/cascades/haarcascade_frontalface_default.xml')
+eye_cascade = cv.CascadeClassifier('data/cascades/haarcascade_eye.xml')
 
-# Write an event listener for mouse input
-clicked = False
-def onMouse(event, x, y, flags, param):
-    global clicked
-    if event == cv.EVENT_LBUTTONDOWN:
-        clicked = True
+# Some settings and parameters.
+boundary_box_thickness = 2
 
-# TODO: Make some precomputations for better detection
+# Get camera image.
+camera = cv.VideoCapture(0)
+output, camera_image = camera.read()
 
+while output and cv.waitKey(1) == -1:    
+    
+    # Resize camera image for faster recognition.
+    # Without blurring - we don't need undersampling handling at the moment.
+    camera_image = cv.resize(camera_image, (0,0), fx = 0.3, fy = 0.3)
 
+    # Save grayscale image.
+    grayscale_image = cv.cvtColor(camera_image, cv.COLOR_BGR2GRAY)
 
-# TODO: Detect face
+    # Get face coordinates.
+    faces = face_cascade.detectMultiScale(grayscale_image, 1.3, 5)
 
-# TODO: Recognise face
+    # Draw each face.
+    for (x,y,w,h) in faces:
 
-# If not recognized => learn new face
-# If recognized => write name
+        # Draw bounding box.
+        camera_image = cv.rectangle(camera_image, (x,y), (x+w, y+h), (255, 0, 0), boundary_box_thickness)
 
-# Display camera frames in a window
-cv.namedWindow('FaceDetector')
-cv.setMouseCallback('FaceDetector', onMouse)
+        # Specify region of interest for gray and color. 
+        # We just want to use that region for eye detection.
+        roi_gray = grayscale_image[y:y+h, x:x+w]
+        roi_color = camera_image[y:y+h,x:x+w]
 
-print ('Showing Camera feed. Click window to stop.')
+        # Detect eyes in grayscale image.
+        eyes = eye_cascade.detectMultiScale(roi_gray)
 
-success, frame = cameraCapture.read()
-while success and cv.waitKey(1) == -1 and not clicked:
-    cv.imshow('FaceDetector', frame)
-    success, frame = cameraCapture.read()
+        for (ex, ey, ew, eh) in eyes:
 
-cv.destroyWindow('FaceDetector')
+            # Draw eye bounding box in image / color ROI.
+            cv.rectangle(roi_color, (ex,ey), (ex+ew, ey+eh), (0, 255, 0), boundary_box_thickness)
+
+    # Show the result.
+    cv.imshow('FaceDetector', camera_image)
+
+    # Grab next camera image.
+    output, camera_image = camera.read()
+
+# End procedures.
+camera.release()
+cv.destroyAllWindows()
