@@ -47,6 +47,8 @@ def detect_faces(image, classifier = "lbp", resize = False, resize_factor = 0.5,
     # Get face coordinates.
     faces = face_classifier.detectMultiScale(image_grayscale, 1.3, 5)
 
+    eyes = None
+
     if detect_eyes or draw_bounding_box is not False:
 
         # If we have to do with the data of each face (detecting eyes or 
@@ -76,5 +78,3 @@ def detect_faces(image, classifier = "lbp", resize = False, resize_factor = 0.5,
 
     # Reutrn found faces
     return faces, eyes, image
-
-def: 
