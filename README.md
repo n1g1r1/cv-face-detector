@@ -1,4 +1,4 @@
-# CV module: Face detection 
+# CV module: Face Detector
 A simple face detection module for Python and OpenCV projects. Currently supported classifiers:
 
 - LBP (Local Binary Pattens) as default.
