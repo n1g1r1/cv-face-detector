@@ -18,7 +18,7 @@ import numpy as np
 import cv2 as cv
 import os               # path finding
 
-def detect_faces(image, classifier = "lbp", resize = False, resize_factor = 0.5, detect_eyes = False, draw_bounding_box = False, bounding_box_thickness = 2):
+def detect_faces(image, classifier = "lbp", resize = False, resize_factor = 0.5, detect_eyes = False, draw_bounding_boxes = False, bounding_box_thickness = 2):
     "Detects faces in an image with pretrained classifiers. You can choose between lbp and haar classifier."
 
     # Depending on which method is used, load the right classifier.
@@ -44,13 +44,13 @@ def detect_faces(image, classifier = "lbp", resize = False, resize_factor = 0.5,
 
     eyes = None
 
-    if detect_eyes or draw_bounding_box is not False:
+    if detect_eyes or draw_bounding_boxes is not False:
 
         # If we have to do with the data of each face (detecting eyes or 
         # drawing bounding boxes), we have to iterate through each of them.
         for (x,y,w,h) in faces:
 
-            if draw_bounding_box:
+            if draw_bounding_boxes:
                 # Draw face bounding box.
                 image = cv.rectangle(image, (x,y), (x+w, y+h), (255, 0, 0), bounding_box_thickness)
 
@@ -64,7 +64,7 @@ def detect_faces(image, classifier = "lbp", resize = False, resize_factor = 0.5,
                 eyes = eye_classifier.detectMultiScale(face_image_gray)
 
                 # Draw bounding boxes of eyes.
-                if draw_bounding_box:
+                if draw_bounding_boxes:
                     face_image = image[y:y+h, x:x+w]
 
                     for (ex, ey, ew, eh) in eyes:

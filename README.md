@@ -23,12 +23,12 @@ You get an array with face and - if you choose so - eye positions. Also, you get
 ### Documentation
 
 ```
-faces, eyes, image = detect_faces(YOUR_IMAGE, classifier = "lbp", resize = False, resize_factor = 0.5, detect_eyes = False, draw_bounding_box = False, bounding_box_thickness = 2)
+faces, eyes, image = detect_faces(YOUR_IMAGE, classifier = "lbp", resize = False, resize_factor = 0.5, detect_eyes = False, draw_bounding_boxes = False, bounding_box_thickness = 2)
 ```
 
 - `classifier`: the chosen classifier. You can choose `lbp` for Local Binary Pattern or `haar` for Haar Classifiers. Default: `lbp`.
 - `resize`: resize the image for faster recognition. Default: `False`.
 - `resize_factor`: specifies the factor of resizing the image. Default: `0.5`
 - `detect_eyes`: `True` or `False` if you want to detect also eyes. Default: `False`.
-- `draw_bounding_box`: Option to draw bounding boxes around faces - and if `detect_eyes` is `True` - also around eyes. Default: `False`
+- `draw_bounding_boxes`: Option to draw bounding boxes around faces - and if `detect_eyes` is `True` - also around eyes. Default: `False`
 - `bounding_box_thickness`: specifies the thickness of the bounding box. Default: `2`.
