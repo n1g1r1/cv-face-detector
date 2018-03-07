@@ -2,7 +2,7 @@
 # Face detection with Haar classifiers
 # @author: Christian Reichel
 # Based on: OpenCV tutorial for face detection
-# Version: 0.1
+# Version: 0.1.2
 # -----------------------------------------------------
 # Detects faces in an image with pretrained
 # classifiers by OpenCV. Detects also eyes.
@@ -11,11 +11,6 @@
 # "classifier". Options:
 # - "lbp" for local binary patterns
 # - "haar" for haar cascadess
-# 
-# Knowm challenges:
-# [ ] Detect tilted faces.
-# [ ] Detect eyes with glasses on.
-# [ ] Cut out eyes and show as separate windows.
 #######################################################
 
 # IMPORTS
